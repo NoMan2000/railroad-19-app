@@ -1,0 +1,25 @@
+@import 'colors.scss';
+
+%button-size {
+  width: 220px;
+  height: 45px;
+}
+
+.primary-button {
+  @extend %button-size;
+  background: $red-dark;
+  color: $white-primary;
+}
+
+.secondary-button {
+  outline: solid 1px $red-dark;
+  background: $white-primary;
+  color: $red-dark;
+  @extend %button-size;
+}
+
+.locked-button {
+  background: $grey-lightBlue;
+  color: $grey-medium;
+  @extend %button-size;
+}

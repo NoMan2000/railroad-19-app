@@ -1,0 +1,8 @@
+node_modules
+.cache
+.env
+**/*.log
+!logs/.keep
+./cypress.env.json
+**/.DS_Store
+junit.xml

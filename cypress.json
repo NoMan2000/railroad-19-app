@@ -1,0 +1,11 @@
+{
+    "baseUrl": "http://localhost:1234",
+    "video": false,
+    "pageLoadTimeout": 35000,
+    "chromeWebSecurity": false,
+    "requestTimeout": 20000,
+    "responseTimeout": 60000,
+    "env": {
+      "//": "override the env settings in cypress.env.json for deployment"
+    }
+  }

@@ -1,0 +1,23 @@
+[ignore]
+
+[include]
+<PROJECT_ROOT>/src/types
+[libs]
+/flow-typed
+[lints]
+
+[options]
+; Extensions
+module.file_ext=.mjs
+module.file_ext=.js
+module.file_ext=.jsx
+module.file_ext=.json
+module.file_ext=.css
+module.file_ext=.scss
+module.file_ext=.otf
+module.file_ext=.ttf
+; suppress_types
+suppress_type=$DownCast
+suppress_type=$FlowFixMe
+suppress_type=$FlowTODO
+[strict]

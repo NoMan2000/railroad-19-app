@@ -1,0 +1,32 @@
+@import './../../../scss/colors';
+
+.date-dropdown {
+  .react-calendar {
+    position: relative;
+    border: 1px solid $blue-dark;
+    margin: 0;
+  }
+  input.form-control {
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0;
+  }
+
+  .bp3-popover-wrapper,
+  .bp3-popover-target {
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+.bp3-popover.date-dropdown {
+  box-shadow: none;
+}
+
+.presets {
+  .bp3-popover-content {
+    display: flex;
+    padding: 10px;
+    border: 1px solid $blue-light;
+  }
+}
