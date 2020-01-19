@@ -4,7 +4,7 @@
   "description": "Project dashboard demo",
   "main": "index.html",
   "scripts": {
-    "start": "yarn prod && node heroku_server/index.js",
+    "start": "node heroku_server/index.js",
     "test": "jest ./src --env=jsdom",
     "test:debug": "node --inspect-brk ./node_modules/.bin/jest ./src --runInBand",
     "test:publish": "JEST_JUNIT_OUTPUT=\"./TEST-RESULTS.xml\" jest --ci --reporters=default --reporters=jest-junit",
