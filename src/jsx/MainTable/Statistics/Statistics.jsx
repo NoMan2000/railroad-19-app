@@ -74,7 +74,7 @@ export const Statistics = (props: Props) => {
               none of them! Everyone is working equally hard!
             </span>
           ) : (
-            <span data-test={'statistics-division'}>totals.division.name</span>
+            <span data-test={'statistics-division'}>{totals.division.name}</span>
           )}
         </div>
         <div>
