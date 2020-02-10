@@ -20,6 +20,8 @@ const progress = e => {
 
 axios.defaults.onDownloadProgress = progress;
 axios.defaults.onUploadProgress = progress;
+export const createCancelSource = () => axiosLib.CancelToken.source();
+export const defaultCancelSource = axiosLib.CancelToken.source();
 
 axios.interceptors.response.use(response => {
   NProgress.done(true);
@@ -49,9 +51,12 @@ axios.interceptors.request.use(
     };
   },
   error => {
-    return Promise.reject(error);
+    if (axiosLib.isCancel(error) && error instanceof Error) {
+      console.log('Request canceled', error.message);
+    } else {
+      return Promise.reject(error);
+    }
   }
 );
 
-export const createCancelSource = () => axiosLib.CancelToken.source();
 export { axios };

@@ -1,11 +1,12 @@
-import { axios } from './axios';
-// eslint-disable-next-line flowtype/no-types-missing-file-annotation
+// @flow
+import { axios, defaultCancelSource } from './axios';
 import type { ServerData } from '../types';
-import { AxiosPromise } from 'axios';
+import type { AxiosPromise } from 'axios';
 
 export const routeMaps = {
-  // eslint-disable-next-line flowtype/no-types-missing-file-annotation
   getAllData: (): AxiosPromise<ServerData[], any> => {
-    return axios.get('./../server/db.json');
+    return axios.get('./../server/db.json', {
+      cancelToken: defaultCancelSource.token
+    });
   }
 };

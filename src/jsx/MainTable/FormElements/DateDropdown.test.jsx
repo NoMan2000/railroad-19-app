@@ -6,6 +6,7 @@ import type { DateDropdownProps } from './DateDropdown';
 
 const defaultProps: DateDropdownProps = {
   handleChange: jest.fn(),
+  isOpen: true,
   defaultValue: 'data',
   name: 'checkbox',
   label: 'checkbox',
@@ -22,6 +23,10 @@ const defaultProps: DateDropdownProps = {
   className: ''
 };
 let props = {};
+jest.mock('./DateDropdown', () => {
+  const actual = jest.requireActual('./DateDropdown');
+  return { ...actual, updateState: jest.fn() };
+});
 
 const createMount = (newProps: DateDropdownProps = {}) => {
   props = { ...defaultProps, ...newProps };
@@ -31,5 +36,9 @@ const createMount = (newProps: DateDropdownProps = {}) => {
 describe('DateDropdown.jsx', () => {
   it('Can mount successfully', () => {
     createMount();
+  });
+  it('Can change values', () => {
+    const mount = createMount();
+    console.log(mount.debug());
   });
 });

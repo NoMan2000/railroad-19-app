@@ -31,6 +31,7 @@ export type DateDropdownProps = {
   Color?: string,
   showPresets?: boolean,
   selectedDateRangePreset?: string,
+  isOpen?: boolean,
   onSelectedDateRangePresetChange?: Function
 };
 
@@ -39,17 +40,9 @@ type State = {
 };
 
 export const selectors = {
-  oneYear: {
-    id: 'date-dropdown-one-year',
-    selector: "[data-test='date-dropdown-one-year']"
-  },
-  threeMonths: {
-    id: 'date-dropdown-three-months',
-    selector: "[data-test='date-dropdown-three-months']"
-  },
-  thisMonth: {
-    id: 'date-dropdown-this-month',
-    selector: "[data-test='date-dropdown-this-month']"
+  calendar: {
+    id: 'date-dropdown-calendar',
+    selector: "[data-test='date-dropdown-calendar']"
   }
 };
 
@@ -116,7 +109,7 @@ export const Input = styled('input')`
 
 export const DateDropdown = (props: DateDropdownProps) => {
   const [dateDropdownState: State, updateState] = React.useState({
-    isOpen: false
+    isOpen: Boolean(props.isOpen)
   });
 
   const handleInteraction = (nextOpenState: boolean) => {
@@ -179,6 +172,7 @@ export const DateDropdown = (props: DateDropdownProps) => {
         content={
           <>
             <Calendar
+              data-test={selectors.calendar.id}
               onChange={onChange}
               value={value || ''}
               minDate={minDate}

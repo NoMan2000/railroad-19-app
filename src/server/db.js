@@ -30,8 +30,8 @@ export const createServerData = (length: number): ServerData[] => {
 
 export const createData = () => {
   const length = Number(process.env.TOTAL_DATA) || 50;
-  const serverData = createServerData(length);
+  const data = createServerData(length);
   return {
-    serverData
+    data
   };
 };

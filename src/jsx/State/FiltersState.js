@@ -3,6 +3,7 @@ import * as React from 'react';
 import type { ServerDataWithShowModal } from '../../types';
 import { AppToaster } from '../Misc/AppToaster';
 import { moment, DEFAULT_FORMAT } from './../../js/time';
+// $FlowFixMe
 import type { OptionsType, OptionType } from 'react-select/src/types';
 import uniq from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
@@ -33,7 +34,7 @@ export const FiltersState = (data: ServerDataWithShowModal[]) => {
     projectOwners: OptionsType,
     updateProjectOwners
   ] = React.useState<OptionsType>(initialProjectOwners);
-  const [titles: OptionsType[], updateTitles] = React.useState<OptionsType[]>(
+  const [titles: OptionsType, updateTitles] = React.useState<OptionsType>(
     initialTitles
   );
   const [
@@ -80,6 +81,19 @@ export const FiltersState = (data: ServerDataWithShowModal[]) => {
     AppToaster.success('Downloaded PDF!');
   };
 
+  const filterByType = (needle: string, haystack: any[]) => {
+    return data.filter(d => haystack.find(v => d[needle] === v.value));
+  };
+
+  const filterByDates = (startDate: Date, endDate: Date) => {
+    data.filter(v =>
+      moment(v.modified, DEFAULT_FORMAT).isBetween(
+        startDate.toISOString(),
+        endDate.toISOString()
+      )
+    );
+  };
+
   const performFiltering = async (filterData: {
     selectedStatuses?: OptionsType,
     selectedProjectOwners?: OptionsType,
@@ -93,71 +107,32 @@ export const FiltersState = (data: ServerDataWithShowModal[]) => {
       orderedDataUpdate
     } = filterData;
     let mutatableData = [];
+
     if (selectedStatuses) {
-      const newStatuses = data.filter(d =>
-        selectedStatuses.find(v => d.status === v.value)
-      );
+      const newStatuses = filterByType('status', selectedStatuses);
       mutatableData = mutatableData.concat(newStatuses);
     }
     if (selectedProjectOwners) {
-      const newProjectOwners = data.filter(d =>
-        selectedProjectOwners.find(v => d.project_owner === v.value)
+      const newProjectOwners = filterByType(
+        'project_owner',
+        selectedProjectOwners
       );
       mutatableData = mutatableData.concat(newProjectOwners);
     }
     if (selectedTitles) {
-      const newTitles = data.filter(d =>
-        selectedTitles.find(v => d.title === v.value)
-      );
+      const newTitles = filterByType('title', selectedTitles);
       mutatableData = mutatableData.concat(newTitles);
     }
-    // TODO:  Can extract most of this out.
+
     if (modifiedStartDate && modifiedEndDate) {
-      const modifiedDates = data.filter(v =>
-        moment(v.modified, DEFAULT_FORMAT).isBetween(
-          modifiedStartDate.toISOString(),
-          modifiedEndDate.toISOString()
-        )
-      );
+      const modifiedDates = filterByDates(modifiedStartDate, modifiedEndDate);
       mutatableData = mutatableData.concat(modifiedDates);
     }
-    // else if (modifiedStartDate) {
-    //   const modifiedDates = data.filter(v =>
-    //     moment(v.modified, DEFAULT_FORMAT).isAfter(
-    //       modifiedStartDate.toISOString()
-    //     )
-    //   );
-    //   mutatableData = mutatableData.concat(modifiedDates);
-    // } else if (modifiedEndDate) {
-    //   const modifiedDates = data.filter(v =>
-    //     moment(v.modified, DEFAULT_FORMAT).isBefore(
-    //       modifiedEndDate.toISOString()
-    //     )
-    //   );
-    //   mutatableData = mutatableData.concat(modifiedDates);
-    // }
     if (createdStartDate && createdEndDate) {
-      const modifiedDates = data.filter(v =>
-        moment(v.created, DEFAULT_FORMAT).isBetween(
-          createdStartDate.toISOString(),
-          createdEndDate.toISOString()
-        )
-      );
+      const modifiedDates = filterByDates(createdStartDate, createdEndDate);
       mutatableData = mutatableData.concat(modifiedDates);
     }
-    // else if (createdStartDate) {
-    //   const modifiedDates = data.filter(v =>
-    //     moment(v.created, DEFAULT_FORMAT).isAfter(
-    //       createdStartDate.toISOString()
-    //     )
-    //   );
-    //   mutatableData = mutatableData.concat(modifiedDates);
-    // } else if (createdEndDate) {
-    //   const modifiedDates = data.filter(v =>
-    //     moment(v.created, DEFAULT_FORMAT).isBefore(createdEndDate.toISOString())
-    //   );
-    //   mutatableData = mutatableData.concat(modifiedDates);
-    // }
+
     mutatableData = uniq(mutatableData, isEqual);
 
     await orderedDataUpdate(mutatableData);

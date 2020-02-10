@@ -3,7 +3,8 @@
 [include]
 <PROJECT_ROOT>/src/types
 [libs]
-/flow-typed
+<PROJECT_ROOT>/flow-typed
+<PROJECT_ROOT>/node_modules
 [lints]
 
 [options]
@@ -20,4 +21,8 @@ module.file_ext=.ttf
 suppress_type=$DownCast
 suppress_type=$FlowFixMe
 suppress_type=$FlowTODO
+; suppress_comments
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
+
 [strict]

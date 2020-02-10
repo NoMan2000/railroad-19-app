@@ -6,3 +6,5 @@ node_modules
 ./cypress.env.json
 **/.DS_Store
 junit.xml
+/src/server/db.json
+/coverage
